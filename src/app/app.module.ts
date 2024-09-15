@@ -4,7 +4,7 @@ import { NgModule } from '@angular/core';
 @NgModule({
 
     imports: [
-        ReactiveFormsModule,
+        ReactiveFormsModule
     ],
 
 })

@@ -20,6 +20,7 @@ export class DiaryComponent {
 
   }
   ngOnInit(): void {
+    this.diaryDataService.getDiaryEntries();
     this.diarySubscription = this.diaryDataService.diarySubject.subscribe(diaryEntries => {
       this.diaryEntries = diaryEntries;
     });
@@ -37,8 +38,4 @@ export class DiaryComponent {
   onEdit(index: number) {
     this.router.navigate(["edit", index]);
   }
-
-  /*getDiaryEntry(index: number) {
-    return { ...this.diaryEntries[index] };
-  }*/
 }
