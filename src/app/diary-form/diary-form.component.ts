@@ -17,7 +17,7 @@ export class DiaryFormComponent {
   diaryForm!: FormGroup;
   editMode = false;
   diaryEntry!: DiaryEntry;
-  paramId!: number;
+  paramId!: string;
 
 
   constructor(private diaryDataService: DiaryDataService, private router: Router, private activatedRoute: ActivatedRoute) { }
@@ -26,7 +26,7 @@ export class DiaryFormComponent {
     this.activatedRoute.paramMap.subscribe(paramMap => {
       if (paramMap.has('id')) {
         this.editMode = true;
-        this.paramId = +paramMap.get('id')!;
+        this.paramId = paramMap.get('id')!;
         this.diaryEntry = this.diaryDataService.getDiaryEntry(this.paramId);
       } else {
         this.editMode = false;
@@ -39,11 +39,12 @@ export class DiaryFormComponent {
   }
 
   onSubmit() {
-    const newEntry = new DiaryEntry(1, this.diaryForm.value.date, this.diaryForm.value.entry);
+    const entry = new DiaryEntry('', this.diaryForm.value.date, this.diaryForm.value.entry);
     if (this.editMode) {
-      this.diaryDataService.onUpdateEntry(this.paramId, newEntry);
+      entry.id = this.paramId;
+      this.diaryDataService.onUpdateEntry(this.paramId, entry);
     } else {
-      this.diaryDataService.onAddDiaryEntry(newEntry);
+      this.diaryDataService.onAddDiaryEntry(entry);
     }
     this.router.navigateByUrl("");
   }

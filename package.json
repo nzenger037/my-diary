@@ -21,8 +21,11 @@
     "@angular/platform-server": "^18.2.0",
     "@angular/router": "^18.2.0",
     "@angular/ssr": "^18.2.4",
+    "body-parser": "^1.20.3",
     "bootstrap": "^3.4.1",
     "express": "^4.21.0",
+    "mongodb": "^6.9.0",
+    "mongoose": "^8.6.2",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.14.10"

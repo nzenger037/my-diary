@@ -1,12 +1,16 @@
 const express = require('express');
-
+const bodyParser = require('body-parser');
+const DiaryEntryModel = require('./entry-schema')
+const mongoose = require('mongoose');
 const app = express();
+mongoose.connect('mongodb+srv://nzenger110:Surfer2049!@diarycluster.byc55.mongodb.net/diarydb?retryWrites=true&w=majority&appName=DiaryCluster')
+    .then(() => {
+        console.log('Connected to MongoDB');
+    }).catch(() => {
+        console.log('Error connecting to MongoDB');
+    })
 
-diaryEntries = [
-    { id: 1, date: "October 31st", entry: "Happy Halloween!" },
-    { id: 2, date: "November 5th", entry: "I ate a hamburger." },
-    { id: 3, date: "December 25th", entry: "Merry Christmas!" }
-];
+app.use(bodyParser.json());
 
 app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
@@ -15,8 +19,38 @@ app.use((req, res, next) => {
     next();
 });
 
-app.use('/diary-entries', (req, res, next) => {
-    res.json({ 'diaryEntries': diaryEntries });
+app.delete('/remove-entry/:id', (req, res) => {
+    DiaryEntryModel.deleteOne({ _id: req.params.id })
+        .then(() => {
+            res.status(200).json({
+                message: 'Post deleted'
+            })
+        })
 })
+
+app.put('/update-entry/:id', (req, res) => {
+    const updatedEntry = new DiaryEntryModel({ _id: req.body.id, date: req.body.date, entry: req.body.entry })
+    DiaryEntryModel.updateOne({ _id: req.body.id }, updatedEntry).then(() => {
+        res.status(200).json({
+            message: 'Update completed'
+        })
+    })
+})
+
+app.get('/diary-entries', (req, res, next) => {
+    DiaryEntryModel.find().then((data) => {
+        res.json({ 'diaryEntries': data });
+    }).catch(() => {
+        console.log('Error fetching entries');
+    });
+});
+
+app.post('/add-entry', (req, res) => {
+    const diaryEntry = new DiaryEntryModel({ date: req.body.date, entry: req.body.entry })
+    diaryEntry.save();
+    res.status(200).json({
+        message: 'Post submitted'
+    });
+});
 
 module.exports = app;

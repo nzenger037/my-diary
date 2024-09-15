@@ -31,11 +31,11 @@ export class DiaryComponent {
     this.diarySubscription.unsubscribe();
   }
 
-  onDelete(index: number) {
+  onDelete(index: string) {
     this.diaryDataService.onDelete(index);
   }
 
-  onEdit(index: number) {
+  onEdit(index: string) {
     this.router.navigate(["edit", index]);
   }
 }
