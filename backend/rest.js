@@ -3,7 +3,7 @@ const bodyParser = require('body-parser');
 const DiaryEntryModel = require('./entry-schema')
 const mongoose = require('mongoose');
 const app = express();
-mongoose.connect('mongodb+srv://nzenger110:Surfer2049!@diarycluster.byc55.mongodb.net/diarydb?retryWrites=true&w=majority&appName=DiaryCluster')
+mongoose.connect('mongodb+srv://nzenger110:<db_password>!@diarycluster.byc55.mongodb.net/diarydb?retryWrites=true&w=majority&appName=DiaryCluster')
     .then(() => {
         console.log('Connected to MongoDB');
     }).catch(() => {
